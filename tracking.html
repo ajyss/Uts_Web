@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracking - Toko Buku</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-left">
+      <h2 class="brand">Toko <span class="accent">Buku</span></h2>
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="stok.html">Katalog</a>
+      </nav>
+    </div>
+    <div class="container nav-right">
+      <button class="btn ghost" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h3>Tracking Pengiriman</h3>
+      <div class="grid-3">
+        <input id="searchDO" placeholder="Nomor Delivery Order (contoh: 20230012)">
+        <button class="btn primary" onclick="handleTracking()">Cari</button>
+      </div>
+
+      <div id="trackingResult" style="margin-top:1rem"></div>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

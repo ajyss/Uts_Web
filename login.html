@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Toko Buku</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-center">
+  <main class="card auth-card">
+    <div class="auth-brand">
+      <h1>Toko Buku</h1>
+      <p class="muted">Platform pemesanan buku — UTS</p>
+    </div>
+
+    <form id="loginForm" class="form" onsubmit="return handleLogin(event)">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="email@contoh.com" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="password" required>
+
+      <button class="btn primary block" type="submit">Login</button>
+
+      <div class="grid-sm">
+        <button type="button" class="link" onclick="openModal('modalLupa')">Lupa Password</button>
+        <button type="button" class="link" onclick="openModal('modalDaftar')">Daftar</button>
+      </div>
+    </form>
+
+    <!-- Modal: Lupa Password -->
+    <div id="modalLupa" class="modal" aria-hidden="true">
+      <div class="modal-content card">
+        <h3>Lupa Password</h3>
+        <p>Masukkan email terdaftar untuk instruksi reset (simulasi).</p>
+        <input id="lupaEmail" type="email" placeholder="email@contoh.com">
+        <div class="actions">
+          <button class="btn" onclick="closeModal('modalLupa')">Tutup</button>
+          <button class="btn primary" onclick="handleLupa()">Kirim</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Daftar -->
+    <div id="modalDaftar" class="modal" aria-hidden="true">
+      <div class="modal-content card">
+        <h3>Daftar Akun Baru</h3>
+        <input id="daftarNama" placeholder="Nama lengkap">
+        <input id="daftarEmail" type="email" placeholder="email@contoh.com">
+        <input id="daftarPassword" type="password" placeholder="password">
+        <div class="actions">
+          <button class="btn" onclick="closeModal('modalDaftar')">Batal</button>
+          <button class="btn primary" onclick="handleDaftar()">Daftar</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

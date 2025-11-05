@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stok / Katalog - Toko Buku</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-left">
+      <h2 class="brand">Toko <span class="accent">Buku</span></h2>
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="checkout.html">Pemesanan</a>
+      </nav>
+    </div>
+    <div class="container nav-right">
+      <span id="userName"></span>
+      <button class="btn ghost" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h3>Katalog Buku</h3>
+      <div id="catalogGrid" class="catalog-grid"></div>
+
+      <hr>
+
+      <h4>Tambah Stok Baru</h4>
+      <form id="addStockForm" class="form" onsubmit="return handleAddStock(event)">
+        <div class="grid-2">
+          <input id="newKode" placeholder="Kode Barang" required>
+          <input id="newNama" placeholder="Nama Barang" required>
+        </div>
+        <div class="grid-3">
+          <input id="newJenis" placeholder="Jenis">
+          <input id="newEdisi" placeholder="Edisi">
+          <input id="newStok" type="number" placeholder="Stok" required>
+        </div>
+        <div class="grid-2">
+          <input id="newHarga" placeholder="Harga (Rp)" required>
+          <input id="newCover" placeholder="Path Cover (img/...jpg)">
+        </div>
+        <button class="btn primary" type="submit">Tambah Stok</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

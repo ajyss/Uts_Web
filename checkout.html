@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Toko Buku</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-left">
+      <h2 class="brand">Toko <span class="accent">Buku</span></h2>
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="stok.html">Katalog</a>
+      </nav>
+    </div>
+    <div class="container nav-right">
+      <span id="userName2"></span>
+      <button class="btn ghost" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="container grid-checkout">
+    <section class="card">
+      <h3>Pilih Buku</h3>
+      <div id="catalogForCheckout" class="catalog-grid"></div>
+    </section>
+
+    <section class="card">
+      <h3>Form Pemesanan</h3>
+      <form id="checkoutForm" class="form" onsubmit="return handleCheckout(event)">
+        <input id="custNama" placeholder="Nama Pemesan" required>
+        <input id="custEmail" type="email" placeholder="Email" required>
+        <input id="custAlamat" placeholder="Alamat" required>
+        <label>Pilih Metode Pembayaran</label>
+        <select id="custBayar">
+          <option value="Transfer">Transfer Bank</option>
+          <option value="COD">COD</option>
+        </select>
+        <h4>Keranjang</h4>
+        <div id="cartList"></div>
+        <div class="actions">
+          <button class="btn" type="button" onclick="clearCart()">Kosongkan Keranjang</button>
+          <button class="btn primary" type="submit">Kirim Pesanan</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
