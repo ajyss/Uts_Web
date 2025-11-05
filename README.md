@@ -101,11 +101,22 @@ project-root/
 
 <img src="img/pemesanan.png">
 
-### 5️⃣ Tracking Pengiriman (tracking.html)
+### 5️⃣ Tracking & History Pesanan
 
-* Pengguna dapat mencari status pengiriman berdasarkan nomor DO.
-* Data diambil dari objek `dataTracking` di `data.js`.
-* Hasil pencarian menampilkan nama penerima, status, ekspedisi, tanggal kirim, dan riwayat perjalanan barang.
+#### Untuk User:
+* Pengguna dapat mencari status pengiriman berdasarkan nomor DO
+* Melihat detail lengkap pesanan dan status terkini
+* Melihat riwayat update status pesanan
+* Akses ke history pemesanan pribadi
+
+#### Untuk Admin:
+* Melihat semua pesanan yang masuk
+* Mengkonfirmasi pesanan baru dengan tombol "Terima Pesanan"
+* Mengupdate status pesanan melalui dropdown:
+  - Sedang Diproses
+  - Dalam Pengiriman
+  - Selesai
+* Setiap update status otomatis tercatat dengan timestamp
 
 ### Capture
 
@@ -122,27 +133,65 @@ project-root/
 
 ---
 
-## 🧠 Teknologi yang Digunakan
+## 🧠 Teknologi dan Fitur
 
+### Teknologi
 | Teknologi            | Fungsi                                                            |
 | -------------------- | ----------------------------------------------------------------- |
 | **HTML5**            | Struktur halaman utama                                            |
 | **CSS3**             | Desain dan tata letak halaman                                     |
 | **JavaScript (ES6)** | Logika interaktif, manipulasi DOM, dan penyimpanan data sementara |
 | **LocalStorage**     | Menyimpan sesi pengguna dan riwayat pemesanan                     |
+| **SessionStorage**   | Menyimpan data keranjang dan status login                         |
+
+### Sistem Pemesanan & Tracking
+* Generasi nomor DO otomatis dengan format tahun + random number
+* Status tracking realtime dengan timestamp
+* History pesanan dengan detail lengkap
+* Validasi stok otomatis saat checkout
+* Role-based access (Admin/User)
+
+### Keamanan
+* Validasi form input
+* Proteksi route berdasarkan login
+* Role-based permissions
+* Session management
+* Data persistence dengan Web Storage API
 
 ---
 
 ## ▶️ Cara Menjalankan Program
 
+### Untuk User Biasa:
 1. Pastikan semua file telah diekstrak dalam satu folder.
-2. Pastikan file `data.js` dan folder `img/` ada di root project.
-3. Buka file **`login.html`** menggunakan browser (klik dua kali atau gunakan ekstensi Live Server di VSCode).
-4. Login menggunakan data contoh dari `data.js`, seperti:
-
+2. Buka file **`login.html`** menggunakan browser.
+3. Login menggunakan data contoh:
    ```
    Email: rina@gmail.com
    Password: rina123
    ```
-5. Setelah berhasil login, Anda akan diarahkan ke dashboard.
-6. Dari dashboard, Anda bisa mengakses semua fitur lainnya.
+4. Dari dashboard, Anda dapat:
+   - Melihat katalog buku
+   - Melakukan pemesanan
+   - Mengecek status pesanan
+   - Melihat history pembelian
+
+### Untuk Admin:
+1. Login menggunakan akun admin:
+   ```
+   Email: admin@example.com
+   Password: admin123
+   ```
+2. Akses fitur admin:
+   - Manajemen stok buku
+   - Konfirmasi pesanan baru
+   - Update status pesanan
+   - Lihat semua history transaksi
+
+### Alur Pemesanan:
+1. User login dan pilih buku
+2. Checkout dan isi data pengiriman
+3. Sistem generate nomor DO
+4. Admin terima pesanan
+5. Admin update status pesanan
+6. User bisa tracking dengan nomor DO

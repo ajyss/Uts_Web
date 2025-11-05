@@ -278,10 +278,18 @@ function handleCheckout(e){
   const nama = qs('#custNama').value.trim();
   const email = qs('#custEmail').value.trim();
   const alamat = qs('#custAlamat').value.trim();
+  const metode = qs('#custBayar').value;
+  
   if(!nama||!email||!alamat) return alert('Lengkapi data pemesan');
   if(cart.length===0) return alert('Keranjang kosong');
   
-  // Simulasi simpan: buat nomor DO dan kurangi stok
+  // Hitung total
+  const total = cart.reduce((sum, item) => {
+    const hargaBersih = parseInt(item.harga.replace('Rp ','').replace(/\./g,''));
+    return sum + (hargaBersih * item.qty);
+  }, 0);
+
+  // Generate nomor DO
   const doNum = '2023' + String(Math.floor(Math.random()*9000)+1000);
 
   // Kurangi stok buku
@@ -292,9 +300,31 @@ function handleCheckout(e){
     }
   });
 
-  alert(`Pemesanan terkirim. Nomor DO: ${doNum}`);
-  clearCart();
-  qs('#checkoutForm').reset();
+  // Buat data order
+  const orderData = {
+    doNumber: doNum,
+    nama,
+    email,
+    alamat,
+    metode,
+    items: [...cart],
+    total
+  };
+  
+  try {
+    // Simpan ke history dan tracking
+    addToHistory(orderData);
+    
+    alert(`Pemesanan berhasil!\nNomor DO: ${doNum}\nTotal: ${formatRupiah(total)}\n\nAnda akan diarahkan ke halaman tracking.`);
+    clearCart();
+    qs('#checkoutForm').reset();
+    
+    // Redirect ke tracking dengan nomor DO
+    location.href = `tracking.html?do=${doNum}`;
+  } catch(err) {
+    console.error('Error saving order:', err);
+    alert('Terjadi kesalahan saat menyimpan pesanan. Silakan coba lagi.');
+  }
   
   // Perbarui tampilan katalog setelah stok berkurang
   renderCatalog('catalogGrid');
@@ -315,15 +345,38 @@ function handleTracking(){
   const out = qs('#trackingResult');
   out.innerHTML = '';
   if(!no) return alert('Masukkan nomor DO');
-  const data = dataTracking[no];
+  const data = getOrderByDO(no);
   if(!data) return out.innerHTML = '<p class="muted">Data tidak ditemukan untuk nomor tersebut.</p>';
   const box = document.createElement('div');
   box.innerHTML = `
-    <h4>${data.nama} — <small class="muted">${data.ekspedisi}</small></h4>
-    <p>Status: <strong>${data.status}</strong></p>
-    <p>Tanggal Kirim: ${data.tanggalKirim} • Paket: ${data.paket} • Total: ${data.total}</p>
-    <h5>Perjalanan</h5>
-    <ul>${data.perjalanan.map(p=>`<li>${p.waktu} — ${p.keterangan}</li>`).join('')}</ul>
+    <div class="history-item">
+      <div class="history-header">
+        <h4>DO: ${data.doNumber}</h4>
+        <span class="status">${data.tracking.status}</span>
+      </div>
+      <p><strong>${data.nama}</strong> • ${new Date(data.timestamp).toLocaleString()}</p>
+      <p>${data.alamat}</p>
+      <div class="history-items">
+        ${data.items.map(item => `
+          <div class="cart-item">
+            <div>${item.nama} x ${item.qty}</div>
+            <div>${item.harga}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="history-total">
+        <strong>Total:</strong> ${formatRupiah(data.total)}
+      </div>
+      <div class="history-updates">
+        ${data.tracking.updates.map(update => `
+          <div class="update-item">
+            <div class="update-time">${new Date(update.timestamp).toLocaleString()}</div>
+            <div class="update-status">${update.status}</div>
+            <div class="update-detail">${update.detail}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
   `;
   out.appendChild(box);
 }
@@ -349,4 +402,7 @@ function handleTracking(){
   renderCatalog('catalogGrid');
   renderCatalog('catalogForCheckout');
   renderCart();
+  
+  // Render history jika ada
+  try { renderOrderHistory(); } catch(e) {}
 })();
